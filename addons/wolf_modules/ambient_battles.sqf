@@ -36,7 +36,6 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 			_direction = _dirNorm vectorMultiply _dist;
 			_headPos = _posP vectorAdd _direction;
 		};
-		hint ("player to soundsource: " + str (getPosASL player distance _headPos));
 		_headPos
 	};
 
@@ -98,6 +97,7 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 		sleep random 20;
 	};
 	if (_debug) then {
+		hint ("player to soundsource: " + str (getPosASL player distance _headPos));
 		hint "finished audio";
 	};
 }
