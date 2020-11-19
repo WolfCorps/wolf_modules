@@ -10,19 +10,25 @@ will only execute on the server machine.
 // will remotely call sounds on all clients (including server). define paramters in _handles array
 //requires an object called "center" (as its varname in editor) as the soundsource. object will not be touched or teleported.
 diag_Log ["#############################################################", _this]; 
-params ["_action", "_ambientbattles"];
+params ["_action", "_ambientbattles","_maxDistance","_debug","_duration","_dist","_center"];
+/*
 _module = _ambientbattles select 0;
 _dist = _module getVariable "distance";
 _dist = parseNumber _dist;
 _duration = _module getVariable "duration";
 _duration = parseNumber _duration;
-_center = _module;
+_center = _module; */
 
+_module = center;
+_dist = 400;
+_duration = 500;
+_debug = true;
+_maxDistance = 3000; //maximum distance to target to still hear sounds
 
 if (!isServer) exitWith {};
 if (_action !="init") exitWith {}; //only executes ingame, not in Eden
 _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in seconds]
-	params["_debug","_duration","_dist","_center"];
+	//params["_debug","_duration","_dist","_center"];
 	IRN_calcSoundPos = {
 		params ["_center","_dist","_headPos"];
 		_posP = getPosASL player;	//getpos player
@@ -49,7 +55,14 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 	};
 
 	IRN_remoteSound = { //plays the specified sound on client
-		params["_sound","_pos","_shots","_delay","_volume","_center","_dist"];
+		params["_sound","_pos","_shots","_delay","_volume","_center","_dist","_maxDistance","_debug"];
+		//get distance to center
+		_d =_center distance player;
+		if (_d > _maxDistance) exitWith {
+			if (_debug) {
+				hint ("out of range of sound: " + str _d + "| max: " + str _maxDistance)
+			};
+		};
 		//get pos
 		_pos = [_center,_dist] call IRN_calcSoundPos;
 		//play salvo
@@ -90,7 +103,7 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 		for "_i" from 0 to 5 do { //spawn up to 5 salvos of fast fire (MG)
 			_sound = selectRandom (if (random 1 < 0.05) then {_listRare} else {_listShots});
 			//params["_sound","_pos","_shots","_delay","_volume"];
-			[_sound,	[0,0,0],	random 15,	random 10,0.5 + random 0.5,_center,_dist] remoteExec ["IRN_remoteSound",0, true];
+			[_sound,	[0,0,0],	random 15,	random 10,0.5 + random 0.5,_center,_dist,_maxDistance,_debug] remoteExec ["IRN_remoteSound",0, true];
 		};
 
 		//--------------
