@@ -48,63 +48,63 @@ class CfgVehicles
 					{                  
 						class 50
                         {
-                            name = "50 meters";
+                            name = "50 Meter";
                             value = "50";
                             default = 1;
                         };
                         class 100
                         {
-                            name = "100 meters";
+                            name = "100 Meter";
                             value = "100";
                         };
                         class 150
                         {
-                            name = "150 meters";
+                            name = "150 Meter";
                             value = "150";
                         };
                         class 200
                         {
-                            name = "200 meters";
+                            name = "200 Meter";
                             value = "200";
                         };
                         class 250
                         {
-                            name = "250 meters";
+                            name = "250 Meter";
                             value = "250";
                         };
                         class 300
                         {
-                            name = "300 meters";
+                            name = "300 Meter";
                             value = "300";
                         };
                         class 350
                         {
-                            name = "350 meters";
+                            name = "350 Meter";
                             value = "350";
                         };
                         class 400
                         {
-                            name = "400 meters";
+                            name = "400 Meter";
                             value = "400";
                         };
                         class 450
                         {
-                            name = "450 meters";
+                            name = "450 Meter";
                             value = "450";
                         };
                         class 500
                         {
-                            name = "500 meters";
+                            name = "500 Meter";
                             value = "500";
                         };
                         class 550
                         {
-                            name = "550 meters";
+                            name = "550 Meter";
                             value = "550";
                         };
                         class 600
                         {
-                            name = "600 meters";
+                            name = "600 Meter";
                             value = "600";
                         };
 					};
@@ -117,38 +117,38 @@ class CfgVehicles
 					{                  
 						class 1
                         {
-                            name = "1 minute";
+                            name = "1 Minute";
                             value = "60";
                             default = 1;
                         };
                         class 2
                         {
-                            name = "2 minutes";
+                            name = "2 Minutes";
                             value = "120";
                         };
                         class 5
                         {
-                            name = "5 minutes";
+                            name = "5 Minutes";
                             value = "300";
                         };
                         class 10
                         {
-                            name = "10 minutes";
+                            name = "10 Minutes";
                             value = "600";
                         };
                         class 30
                         {
-                            name = "30 minutes";
+                            name = "30 Minutes";
                             value = "1800";
                         };
                         class 60
                         {
-                            name = "60 minutes";
+                            name = "60 Minutes";
                             value = "3600";
                         };
                         class 120
                         {
-                            name = "120 minutes";
+                            name = "120 Minutes";
                             value = "7200";
                         };
                         class Infinite
@@ -156,56 +156,6 @@ class CfgVehicles
                             name = "Infinite";
                             value = "25555555";
                         };
-                        
-					};
-				};
-				class maxdistance
-				{
-					displayName = "Maximum distance";
-					description = "Maximum distance to the module to play sound for the player. If player exceeds the range the sound will be stopped.";
-					class values
-					{                  
-						class 1000
-                        {
-                            name = "1000 meters";
-                            value = "1000";                       
-                        };
-                        class 2000
-                        {
-                            name = "1500 meters";
-                            value = "1500";
-                        };
-                        class 2000
-                        {
-                            name = "2000 meters";
-                            value = "2000";
-                        };
-                        class 2500
-                        {
-                            name = "2500 meters";
-                            value = "2500";
-                        };
-                        class 3000
-                        {
-                            name = "3000 meters";
-                            value = "3000";
-                            default = 1; 
-                        };
-                        class 3500
-                        {
-                            name = "3500 meters";
-                            value = "3500";
-                        };
-                        class 4000
-                        {
-                            name = "4000 meters";
-                            value = "4000";
-                        }; 
-                        class 5000           
-                        {
-                            name = "5000 meters";
-                            value = "5000";
-                        }; 
 					};
 				};
 			};
