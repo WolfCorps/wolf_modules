@@ -17,12 +17,9 @@ _dist = parseNumber _dist;
 _duration = _module getVariable "duration";
 _duration = parseNumber _duration;
 _center = _module;
+_maxDistance = _module getVariable "maxdistance";
+_maxDistance = parseNumber _maxDistance;
 
-
-if (!isServer) exitWith {};
-if (_action !="init") exitWith {}; //only executes ingame, not in Eden
-_handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in seconds]
-	params["_debug","_duration","_dist","_center"];
 	IRN_calcSoundPos = {
 		params ["_center","_dist","_headPos"];
 		_posP = getPosASL player;	//getpos player
@@ -49,12 +46,18 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 	};
 
 	IRN_remoteSound = { //plays the specified sound on client
-		params["_sound","_pos","_shots","_delay","_volume","_center","_dist"];
-		//get pos
-		_pos = [_center,_dist] call IRN_calcSoundPos;
-		//play salvo
-		[_sound,_pos,_shots,_delay,_volume] call IRN_spawnSalvo;
+		params["_sound","_pos","_shots","_delay","_volume","_center","_dist", "_maxDistance"];
+		//get distance to center
+		_d =_center distance player;
+		if (_d > _maxDistance) exitWith {			
+		};
 	};
+
+if (!isServer) exitWith {};
+if (_action !="init") exitWith {}; //only executes ingame, not in Eden
+_handle = [false, _duration, _dist, _center, _maxDistance] spawn { //[debug mode, duration in seconds]
+	params["_debug","_duration","_dist","_center", "_maxDistance"];
+	
 
 	private _i = 0; //iteration counter
 	private ["_posC","_posP","_direction","_dirNorm","_dist","_center","_source"];
@@ -90,7 +93,7 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 		for "_i" from 0 to 5 do { //spawn up to 5 salvos of fast fire (MG)
 			_sound = selectRandom (if (random 1 < 0.05) then {_listRare} else {_listShots});
 			//params["_sound","_pos","_shots","_delay","_volume"];
-			[_sound,	[0,0,0],	random 15,	random 10,0.5 + random 0.5,_center,_dist] remoteExec ["IRN_remoteSound",0, true];
+			[_sound,	[0,0,0],	random 15,	random 10,0.5 + random 0.5,_center,_dist,_maxDistance] remoteExec ["IRN_remoteSound",0, true];
 		};
 
 		//--------------
@@ -100,4 +103,4 @@ _handle = [false, _duration, _dist, _center] spawn { //[debug mode, duration in 
 		hint ("player to soundsource: " + str (getPosASL player distance _headPos));
 		hint "finished audio";
 	};
-}
+};
