@@ -18,44 +18,11 @@ _duration = _module getVariable "duration";
 _duration = parseNumber _duration;
 _center = _module;
 _maxDistance = _module getVariable "maxdistance";
-_maxDistance = parseNumber _maxDistance;
-
-	IRN_calcSoundPos = {
-		params ["_center","_dist","_headPos"];
-		_posP = getPosASL player;	//getpos player
-		_posC = getPosASL _center;	//getpos of center
-		_direction = _posC vectorDiff _posP; //get desired positon of selfiestick headgear
-		//TODO add safeguard for players that manage to get very far away
-		if (vectorMagnitude _direction < _dist) then { //if center is closer than _dist, set pos directly at center
-			_headPos = _posC;
-		} else { //else set in direction of center at _dist meters away
-			_dirNorm = vectorNormalized _direction;
-			_direction = _dirNorm vectorMultiply _dist;
-			_headPos = _posP vectorAdd _direction;
-		};
-		_headPos
-	};
-
-	IRN_spawnSalvo = {
-		params["_sound","_pos","_shots","_delay","_volume"];
-		sleep _delay;
-		for "_i" from 0 to _shots do {
-			playSound3D [_sound, nil, false, _pos, _volume, 0, 0]; // play sound
-			sleep random [0.02,0.2,0.5];
-		};
-	};
-
-	IRN_remoteSound = { //plays the specified sound on client
-		params["_sound","_pos","_shots","_delay","_volume","_center","_dist", "_maxDistance"];
-		//get distance to center
-		_d =_center distance player;
-		if (_d > _maxDistance) exitWith {			
-		};
-	};
+_maxDistance = parseNumber _maxDistance;	
 
 if (!isServer) exitWith {};
 if (_action !="init") exitWith {}; //only executes ingame, not in Eden
-_handle = [false, _duration, _dist, _center, _maxDistance] spawn { //[debug mode, duration in seconds]
+[false, _duration, _dist, _center, _maxDistance] spawn { //[debug mode, duration in seconds]
 	params["_debug","_duration","_dist","_center", "_maxDistance"];
 	
 
@@ -93,7 +60,7 @@ _handle = [false, _duration, _dist, _center, _maxDistance] spawn { //[debug mode
 		for "_i" from 0 to 5 do { //spawn up to 5 salvos of fast fire (MG)
 			_sound = selectRandom (if (random 1 < 0.05) then {_listRare} else {_listShots});
 			//params["_sound","_pos","_shots","_delay","_volume"];
-			[_sound,	[0,0,0],	random 15,	random 10,0.5 + random 0.5,_center,_dist,_maxDistance] remoteExec ["IRN_remoteSound",0, true];
+			[_sound,	[0,0,0],	random 15,	random 10,0.5 + random 0.5,_center,_dist,_maxDistance] remoteExec ["IRN_fnc_remoteSound",0, true];
 		};
 
 		//--------------
