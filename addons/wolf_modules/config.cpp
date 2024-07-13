@@ -23,8 +23,11 @@ class CfgFunctions
 
 class CfgVehicles 
 	{
-		class ModuleDescription;
-		class Module_F;
+        class Logic;
+        class Module_F: Logic
+        {
+            class ModuleDescription;
+        };
 		class ModuleAmbientBattles: Module_F
 		{
 			author = "Wolf Corps";
