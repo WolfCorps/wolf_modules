@@ -23,6 +23,21 @@ class CfgFunctions
         };
     };
     
+
+    class wolf_tasksystem
+    {
+        class task_system
+        {
+            file = "z\wolf\modules\tasksystem";
+            class init { preInit = 1; };
+            class createRandomTask;
+            class createTaskLocation;
+            class registerTaskType;
+            class selectTaskType;
+            class startNewTask;
+            class updateActiveTasks;
+        };
+    };
 };
 
 class CfgVehicles 
