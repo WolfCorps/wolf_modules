@@ -18,12 +18,7 @@
     private _taskID = _x get "taskID";
     private _taskType = (_x get "taskType") get "taskType";
 
-    // Check task states
-    private _isCompleted = _x call ["completionCondition"];
-    private _isFailed = _x call ["failureCondition"];
-    private _isCanceled = _x call ["cancellationCondition"];
-
-    if (_isCompleted) then {
+    if (_x call ["completionCondition"]) then {
         // Task completed
         diag_log ["Task completed", _taskType];
 
@@ -40,14 +35,14 @@
             };
         };
 
-    } else if (_isFailed) then {
+    } else if (_x call ["failureCondition"]) then {
         // Task failed
         diag_log ["Task failed", _taskType];
         wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
         _x call ["onFail"];
         [_taskID, "FAILED"] call BIS_fnc_taskSetState;
 
-    } else if (_isCanceled) then {
+    } else if (_x call ["cancellationCondition"]) then {
         // Task canceled
         diag_log ["Task canceled", _taskType];
         wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
@@ -55,4 +50,4 @@
         [_taskID, "CANCELED"] call BIS_fnc_taskSetState;
     };
 
-} forEachReversed wolf_tasksystem_activeTasks; // Reversed because we
+} forEachReversed wolf_tasksystem_activeTasks; // Reversed because we're deleting elements
