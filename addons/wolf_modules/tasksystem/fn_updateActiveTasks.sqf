@@ -13,28 +13,56 @@
  * Public: No
  */
 
+ {
+    // _x: TaskInstance
+    private _taskID = _x get "taskID";
+    private _taskType = (_x get "taskType") get "taskType";
 
+    // Check if complete
+    private _isCompleted = _x call ["completionCondition"];
+    
+    // If task is not completed, check for fail or cancel conditions
+    if (!_isCompleted) then {
 
-{
-	// _x: TaskInstance
-	// Check if complete
-	private _isCompleted = _x call ["completionCondition"];
-	if (!_isCompleted) then { continue; }; // Don't care about uncompleted tasks
+        // Check if task is failed
+        private _isFailed = _x call ["failureCondition"];
+        if (_isFailed) then {
+            diag_log ["Task failed", _taskType];
+            wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
+            _x call ["onFail"];
+            [_taskID, "FAILED"] call BIS_fnc_taskSetState;
+            // No continuation should be triggered for failed tasks
+        } else {
 
-	diag_log ["task completed", (_x get "taskType") get "taskType"];
+            // Check if task is canceled
+            private _isCanceled = _x call ["cancellationCondition"];
+            if (_isCanceled) then {
+                diag_log ["Task canceled", _taskType];
+                wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
+                _x call ["onCancel"];
+                [_taskID, "CANCELED"] call BIS_fnc_taskSetState;
+                // No continuation should be triggered for canceled tasks
+            } 
+        };
 
-	// Task is completed, remove it from active, finish it, check for continuation 
-	wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
-	_x call ["onComplete"];
+        // Since the task either failed or was canceled, it should not continue beyond this point
+        continue;
+    };
 
-	// Continuation? 
-	private _continuation = _x call ["getContinuationType"];
+    // Task was successfully completed
+    diag_log ["Task completed", _taskType];
 
-	if (isNil "_continuation") then { continue; }; // No continuation, we're done with this
+    // Remove from active list and mark as complete
+    wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
+    _x call ["onComplete"];
 
-	(_continuation call wolf_tasksystem_fnc_selectTaskType) params ["_newTaskType", "_targetLocation"];
+    // Continuation should **only** happen for completed tasks
+    private _continuation = _x call ["getContinuationType"];
+    if (isNil "_continuation") exitWith {}; // No continuation, task fully ends
 
-	if (isNil "_newTaskType") then { continue; }; // Couldn't find anything to continue with
+    (_continuation call wolf_tasksystem_fnc_selectTaskType) params ["_newTaskType", "_targetLocation"];
+    if (isNil "_newTaskType") exitWith {}; // Couldn't find a valid continuation task
 
-	[_newTaskType, _targetLocation, _x] call wolf_tasksystem_fnc_startNewTask;
+    [_newTaskType, _targetLocation, _x] call wolf_tasksystem_fnc_startNewTask;
+
 } forEachReversed wolf_tasksystem_activeTasks; // Reversed because we're deleting elements
