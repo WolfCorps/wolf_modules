@@ -56,7 +56,7 @@
     wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
     _x call ["onComplete"];
 
-    // Continuation should **only** happen for completed tasks
+    // Continuation should only happen for completed tasks
     private _continuation = _x call ["getContinuationType"];
     if (isNil "_continuation") exitWith {}; // No continuation, task fully ends
 
