@@ -69,6 +69,10 @@ wolf_tasksystem_decl_TaskType = [
 	["onStart", { }],
 	["completionCondition", { true }],
 	["onComplete", { }]
+	["failureCondition", { true }],
+    	["onFail", { }],
+    	["cancellationCondition", { true }], 
+    	["onCancel", { }]
 ];
 
 
@@ -108,7 +112,11 @@ wolf_tasksystem_decl_TaskInstance = [
 	["getContinuationType", { call ((_self get "taskType") get "getContinuationType"); }],
 	["onStart", { call ((_self get "taskType") get "onStart"); }],
 	["completionCondition", { call ((_self get "taskType") get "completionCondition"); }],
-	["onComplete", { call ((_self get "taskType") get "onComplete"); }]
+	["onComplete", { call ((_self get "taskType") get "onComplete"); }],
+	["failureCondition", { call ((_self get "taskType") get "failureCondition"); }],
+	["onFail", { call ((_self get "taskType") get "onFail"); }],
+	["cancellationCondition", { call ((_self get "taskType") get "cancellationCondition"); }],
+	["onCancel", { call ((_self get "taskType") get "onCancel") }]
 ];
 
 wolf_tasksystem_activeTasks = [];
