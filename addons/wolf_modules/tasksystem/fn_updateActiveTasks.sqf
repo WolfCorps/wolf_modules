@@ -35,19 +35,25 @@
             };
         };
 
-    } else if (_x call ["failureCondition"]) then {
-        // Task failed
-        diag_log ["Task failed", _taskType];
-        wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
-        _x call ["onFail"];
-        [_taskID, "FAILED"] call BIS_fnc_taskSetState;
+    } else {
+        if (_x call ["failureCondition"]) then {
+            // Task failed
+            diag_log ["Task failed", _taskType];
 
-    } else if (_x call ["cancellationCondition"]) then {
-        // Task canceled
-        diag_log ["Task canceled", _taskType];
-        wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
-        _x call ["onCancel"];
-        [_taskID, "CANCELED"] call BIS_fnc_taskSetState;
+            // Remove task from active list and execute failure routine
+            wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
+            _x call ["onFail"];
+
+        } else {
+            if (_x call ["cancellationCondition"]) then {
+                // Task canceled
+                diag_log ["Task canceled", _taskType];
+
+                // Remove task from active list and execute cancellation routine
+                wolf_tasksystem_activeTasks deleteAt (wolf_tasksystem_activeTasks find _x);
+                _x call ["onCancel"];
+            };
+        };
     };
 
 } forEachReversed wolf_tasksystem_activeTasks; // Reversed because we're deleting elements
