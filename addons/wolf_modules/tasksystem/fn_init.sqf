@@ -70,9 +70,9 @@ wolf_tasksystem_decl_TaskType = [
 	["completionCondition", { true }],
 	["onComplete", { }]
 	["failureCondition", { true }],
-    	["onFail", { }],
-    	["cancellationCondition", { true }], 
-    	["onCancel", { }]
+	["onFail", { }],
+	["cancellationCondition", { true }], 
+	["onCancel", { }]
 ];
 
 
