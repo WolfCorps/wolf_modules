@@ -68,7 +68,7 @@ wolf_tasksystem_decl_TaskType = [
 	["createTask", { }],
 	["onStart", { }],
 	["completionCondition", { true }],
-	["onComplete", { }]
+	["onComplete", { }],
 	["failureCondition", { true }],
 	["onFail", { }],
 	["cancellationCondition", { true }], 
