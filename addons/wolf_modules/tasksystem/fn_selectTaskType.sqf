@@ -44,6 +44,7 @@ if (_filter isEqualTo "") exitWith {
 	private _possibleLocationsExcludingActiveTasks = _possibleLocations - (wolf_tasksystem_activeTasks apply {_x get "location"});
 	// We might fail if too many tasks are active, in that case just allow creating a task at a duplicated location
 	if (_possibleLocationsExcludingActiveTasks isNotEqualTo []) then { _possibleLocations = _possibleLocationsExcludingActiveTasks; };
+	if (_possibleLocations isEqualTo []) exitWith { [nil, nil]; };
 
 	// Select a random location for our new task 
 	private _targetLocation = selectRandom _possibleLocations;

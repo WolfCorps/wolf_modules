@@ -9,7 +9,7 @@ will only execute on the server machine.
 //--------------------------------------------------------------------------------------------
 // will remotely call sounds on all clients (including server). define paramters in _handles array
 //requires an object called "center" (as its varname in editor) as the soundsource. object will not be touched or teleported.
-diag_Log ["#############################################################", _this]; 
+diag_log ["#############################################################", _this]; 
 params ["_action", "_ambientbattles"];
 _module = _ambientbattles select 0;
 _dist = _module getVariable "distance";

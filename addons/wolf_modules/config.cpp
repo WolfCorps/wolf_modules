@@ -6,6 +6,7 @@ class CfgPatches
         requiredAddons[] = {"A3_Data_F_Oldman_Loadorder"};
         units[] = {"ModuleAmbientBattles"};
         weapons[] = {};
+        requiredVersion = 2.20;
     };
 };
 
@@ -22,7 +23,7 @@ class CfgFunctions
             class remoteSound;
         };
     };
-    
+
 
     class wolf_tasksystem
     {
@@ -30,7 +31,7 @@ class CfgFunctions
         {
             file = "z\wolf\modules\tasksystem";
             class init { preInit = 1; };
-            class createRandomTask;
+            class createRandomTask; // wolf_tasksystem_fnc_createRandomTask
             class createTaskLocation;
             class registerTaskType;
             class selectTaskType;
@@ -40,7 +41,7 @@ class CfgFunctions
     };
 };
 
-class CfgVehicles 
+class CfgVehicles
 {
     class Logic;
     class Module_F: Logic
@@ -178,7 +179,7 @@ class CfgVehicles
                         name = "Infinite";
                         value = "25555555";
                     };
-                    
+
                 };
             };
             class maxdistance
@@ -211,7 +212,7 @@ class CfgVehicles
                     {
                         name = "3000 meters";
                         value = "3000";
-                        default = 1; 
+                        default = 1;
                     };
                     class 3500
                     {
@@ -222,12 +223,12 @@ class CfgVehicles
                     {
                         name = "4000 meters";
                         value = "4000";
-                    }; 
+                    };
                     class 5000
                     {
                         name = "5000 meters";
                         value = "5000";
-                    }; 
+                    };
                 };
             };
         };

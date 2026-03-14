@@ -8,3 +8,12 @@ major = 1
 minor = 0
 patch = 0
 build = 0
+
+[rapify]
+enabled = false # because missing includes
+exclude = [
+    "addons/wolf_modules/MissionTransition/config.cpp",
+]
+
+#[hemtt.build]
+#pdrive = "require"
