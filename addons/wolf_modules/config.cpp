@@ -39,6 +39,26 @@ class CfgFunctions
             class updateActiveTasks;
         };
     };
+
+    class wolf_unitRecording
+    {
+        class stuff
+        {
+            file = "z\wolf\modules\functions";
+            class onLoadUnitRecordingButton; // wolf_unitRecording_fnc_onLoadUnitRecordingButton
+            class onClickUnitRecordingButton; // wolf_unitRecording_fnc_createRandomTask
+        };
+    };
+
+    class wolf_smoothTeleport
+    {
+        class stuff
+        {
+            file = "z\wolf\modules\functions";
+            class module { file = "z\wolf\modules\functions\fn_moduleSmoothTeleport.sqf"; }; // wolf_smoothTeleport_fnc_module
+            class doTeleport { file = "z\wolf\modules\functions\fn_doTeleport.sqf"; }; // wolf_smoothTeleport_fnc_doTeleport
+        };
+    };
 };
 
 class CfgVehicles
@@ -46,8 +66,24 @@ class CfgVehicles
     class Logic;
     class Module_F: Logic
     {
-        class ModuleDescription;
+            class AttributesBase
+            {
+                class Default;
+                class Edit;                    // Default edit box (i.e. text input field)
+                class Combo;                // Default combo box (i.e. drop-down menu)
+                class Checkbox;                // Default checkbox (returned value is Boolean)
+                class CheckboxNumber;        // Default checkbox (returned value is Number)
+                class ModuleDescription;    // Module description
+                class Units;                // Selection of units on which the module is applied
+            };
+
+            // Description base classes (for more information see below):
+            class ModuleDescription
+            {
+                class AnyBrain;
+            };
     };
+
     class ModuleAmbientBattles: Module_F
     {
         author = "Wolf Corps";
@@ -237,5 +273,97 @@ class CfgVehicles
             position = 1;
             description = "Create ambient battle sounds. Sound center is module position.";
         };
+    };
+
+    class wolf_ModuleSmoothTeleport: Module_F
+    {
+        author = "Wolf Corps";
+        scope = 2;
+        icon = "IconTimeline";
+        portrait = "";
+        displayName = "Smooth Teleport";
+        category = "MissionFlow";
+        function = "wolf_smoothTeleport_fnc_module";
+        is3DEN = 1;
+        isGlobal = 1;
+        isTriggerActivated = 0; // We set up the triggers by ourselves
+        isDisposable = 1;
+
+        canSetArea = 1; // Allows for setting the area values in the Attributes menu in 3DEN
+        canSetAreaShape = 1;
+
+        class AttributeValues
+        {
+            // This section allows you to set the default values for the attributes menu in 3DEN
+            size3[] = { 10, 10, -1 };        // 3D size (x-axis radius, y-axis radius, z-axis radius)
+            isRectangle = 0;                // Sets if the default shape should be a rectangle or ellipse
+        };
+
+        // Module attributes (uses https://community.bistudio.com/wiki/Eden_Editor:_Configuring_Attributes#Entity_Specific):
+        class Attributes : AttributesBase
+        {
+            class TeleportName : Edit
+            {
+                displayName = "TeleportName";
+                tooltip = "Name of the teleport, must have two modules that teleport back and forth";
+                property = "wolf_TeleportName";
+                defaultValue = """""";
+                expression = "_this setVariable ['%s',_value];";
+            };
+
+            class ModuleDescription : ModuleDescription {}; // Module description should be shown last
+        };
+
+        class ModuleDescription: ModuleDescription
+        {
+            position = 0; // Position doesn't matter
+            description = "Smooth teleports to other module with same teleport name";
+        };
+    };
+
+
+
+
+
+
+
+
+};
+
+
+class RscButton;
+class RscStandardDisplay;
+
+class wolf_unitRecording: RscButton
+{
+    idc = 33501;
+    onLoad = "_this call wolf_unitRecording_fnc_onLoadUnitRecordingButton";
+    action = "call wolf_unitRecording_fnc_onClickUnitRecordingButton";
+    text = "Start unit recording";
+    x = "1.2";
+    y = "(6 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) + (safezoneY))";
+    w = "(10 * (((safezoneW / safezoneH) min 1.2) / 40))";
+    h = "(1 * ((((safezoneW / safezoneH) min 1.2) / 1.2) / 25))";
+    deletable = 1;
+};
+class RscDisplayMPInterrupt: RscStandardDisplay
+{
+    class controls
+    {
+        class wolf_unitRecording_ : wolf_unitRecording {};
+    };
+};
+//class RscDisplayInterruptEditorPreview: RscStandardDisplay
+//{
+//	class controls
+//	{
+//		class wolf_unitRecording_ : wolf_unitRecording {};
+//	};
+//};
+class RscDisplayInterrupt: RscStandardDisplay
+{
+    class controls
+    {
+        class wolf_unitRecording_ : wolf_unitRecording {};
     };
 };

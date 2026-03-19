@@ -18,7 +18,6 @@ class CfgPatches
 
 class CfgFunctions
 {
-allowFunctionRecompile = 1 ;
     class wolf_MissionTransition
     {
         class MissionTransition
@@ -154,6 +153,7 @@ class CfgVehicles
                 class AnyBrain;
             };
     };
+
     class wolf_ModuleMissionTransitionExit: Module_F
     {
         author = "Wolf Corps";
@@ -212,7 +212,6 @@ class CfgVehicles
             description = "Any unit that enters the area (connected trigger), will have their loadout saved on the server, and get their screen blacked out. Once all players are saved, the server will trigger a mission transition. Multiple 'vehicle zone' trigger areas can be connected, all vehicles inside them will be saved too.";
         };
     };
-
 
     class wolf_ModuleMissionTransitionEntry: Module_F
     {
