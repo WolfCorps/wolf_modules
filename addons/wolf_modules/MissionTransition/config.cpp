@@ -88,7 +88,7 @@ class Cfg3DEN
             condition1 = "script1";
             condition2 = "trigger";
 
-            conditionScript1 = "_this isKindOf 'wolf_ModuleMissionTransitionExit'";
+            conditionScript1 = "_thisType == 'Logic' && {_this isKindOf 'wolf_ModuleMissionTransitionExit'}";
 
             property = "wolf_CustomConnection";
             data = "wolf_CustomConnectionPlayer";
@@ -103,7 +103,7 @@ class Cfg3DEN
             condition1 = "script1";
             condition2 = "trigger";
 
-            conditionScript1 = "_this isKindOf 'wolf_ModuleMissionTransitionExit'";
+            conditionScript1 = "_thisType == 'Logic' && {_this isKindOf 'wolf_ModuleMissionTransitionExit'}";
 
             property = "wolf_CustomConnection";
             data = "wolf_CustomConnectionVehZone";
@@ -118,7 +118,7 @@ class Cfg3DEN
             condition1 = "script1";
             condition2 = "marker";
 
-            conditionScript1 = "_this isKindOf 'wolf_ModuleMissionTransitionEntry'";
+            conditionScript1 = "_thisType == 'Logic' && {_this isKindOf 'wolf_ModuleMissionTransitionEntry'}";
 
             property = "wolf_CustomConnection";
             data = "wolf_CustomConnectionVehSpot";
