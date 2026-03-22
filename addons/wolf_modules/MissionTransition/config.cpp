@@ -46,6 +46,7 @@ class Display3DEN
     {
         class Items
         {
+            #if 0
             items[] +=
             {
                 "wolf_AddToFavorites",
@@ -74,6 +75,7 @@ class Display3DEN
                 wikiDescription = "babab";
                 value = 0;
             };
+            #endif
         };
     };
 };
